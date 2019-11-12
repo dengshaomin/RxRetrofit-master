@@ -1,8 +1,12 @@
 package com.code.rxretrofitlibrary.http.headers;
 
+import java.io.File;
+
 public class CacheHeaders {
 
-    public static String HEADER_FILED = "cache";
+    public static final String HEADER_FILED = "cache";
+
+    public static final String COLON = ":";
 
     public static class STATUS {
 
@@ -14,13 +18,13 @@ public class CacheHeaders {
     }
 
     // 无网、网络异常、接口失败优先展示缓存
-    public static final String ERROR = "cache:error";
+    public static final String ERROR = HEADER_FILED + COLON + STATUS.ERROR;
 
     //用于页面的秒刷,永远展示上次缓存，没有则请求网络数据
-    public static final String NORMAL = "cache:normal";
+    public static final String NORMAL = HEADER_FILED + COLON + STATUS.NORMAL;
 
     //不需要缓存
-    public static final String NO = "cache:no";
+    public static final String NO = HEADER_FILED + COLON + STATUS.NO;
 
     //app采取默认缓存模式
     public static final String DEFAULT = STATUS.NO;

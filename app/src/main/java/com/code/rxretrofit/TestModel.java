@@ -2,7 +2,7 @@ package com.code.rxretrofit;
 
 public class TestModel {
     private String name;
-    private int age;
+    private int id;
 
     public String getName() {
         return name;
@@ -13,10 +13,10 @@ public class TestModel {
     }
 
     public int getAge() {
-        return age;
+        return id;
     }
 
     public void setAge(int age) {
-        this.age = age;
+        this.id = age;
     }
 }

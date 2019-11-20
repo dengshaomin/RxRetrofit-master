@@ -5,7 +5,7 @@ import com.code.rxretrofitlibrary.http.models.ServerModel;
 
 import io.reactivex.functions.Function;
 
-public class ReponseMap<T> implements Function<ServerModel<T>, T> {
+public class ReponseObjectMap<T> implements Function<ServerModel<T>, T> {
 
 
     @Override

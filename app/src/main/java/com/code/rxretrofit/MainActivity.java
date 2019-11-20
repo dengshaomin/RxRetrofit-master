@@ -3,6 +3,7 @@ package com.code.rxretrofit;
 import java.util.HashMap;
 
 import androidx.appcompat.app.AppCompatActivity;
+import io.reactivex.Observable;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import com.code.rxretrofitlibrary.http.HttpUtils;
 import com.code.rxretrofitlibrary.http.RetrofitHttpUtil;
 import com.code.rxretrofitlibrary.http.cb.HttpCallBack;
 import com.code.rxretrofitlibrary.http.exception.HttpException;
+import com.code.rxretrofitlibrary.http.models.ServerModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         if (mApiServer == null) {
             mApiServer = RetrofitHttpUtil.createServerApi(ApiServer.class, "http://www.baidu.com?");
         }
-        HttpUtils.executeDialog(this, mApiServer.testApi(new HashMap<String, String>()), new HttpCallBack<TestModel>() {
+        HttpUtils.executeObjectDialog(this,  mApiServer.testApi1(new HashMap<String, String>()), new HttpCallBack<TestModel>() {
             @Override
             public void onSuccess(TestModel data) {
                 Log.e(TAG, JSON.toJSONString(data));

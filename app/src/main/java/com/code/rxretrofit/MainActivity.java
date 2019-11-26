@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         if (mApiServer == null) {
             mApiServer = RetrofitHttpUtil.createServerApi(ApiServer.class, "http://www.baidu.com?");
         }
-        HttpUtils.executeObjectDialog(this,  mApiServer.testApi1(new HashMap<String, String>()), new HttpCallBack<TestModel>() {
+        HttpUtils.executeObjectDialog(this, mApiServer.testApi1(new HashMap<String, String>()), new HttpCallBack<TestModel>() {
             @Override
             public void onSuccess(TestModel data) {
                 Log.e(TAG, JSON.toJSONString(data));

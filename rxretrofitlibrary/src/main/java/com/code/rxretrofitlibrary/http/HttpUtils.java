@@ -7,13 +7,13 @@ import android.util.Log;
 import com.code.rxretrofitlibrary.http.cb.HttpCallBack;
 import com.code.rxretrofitlibrary.http.exception.ExceptionType;
 import com.code.rxretrofitlibrary.http.exception.HttpException;
-import com.code.rxretrofitlibrary.http.maps.ReponseObjectMap;
 import com.code.rxretrofitlibrary.http.maps.ReponseJsonMap;
+import com.code.rxretrofitlibrary.http.maps.ReponseObjectMap;
 import com.code.rxretrofitlibrary.http.observers.ReponseObserver;
-import com.trello.rxlifecycle3.android.ActivityEvent;
-import com.trello.rxlifecycle3.components.RxActivity;
-import com.trello.rxlifecycle3.components.support.RxAppCompatActivity;
-import com.trello.rxlifecycle3.components.support.RxFragmentActivity;
+import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.trello.rxlifecycle2.components.RxActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -66,32 +66,33 @@ public class HttpUtils {
     /**
      * 返回指定的数据结构
      * 展示加载框
+     * 如接口还在请求此时关闭activity，此方法会发生crash：MainActivity has leaked window DecorView@83f150[] that was originally added here
      * */
-    public static void executeObjectDialog(Context context, Observable observable, HttpCallBack httpCallBack) {
-        if (context == null || observable == null) {
-            if (httpCallBack != null) {
-                httpCallBack.onError(new HttpException(ExceptionType.DEFAULT, ExceptionType.DEFAULT, ""));
-            }
-            return;
-        }
-        observable = transformObservableObject(context, observable);
-        observable.subscribe(new ReponseObserver(context, httpCallBack, true));
-    }
+//    public static void executeObjectDialog(Context context, Observable observable, HttpCallBack httpCallBack) {
+//        if (context == null || observable == null) {
+//            if (httpCallBack != null) {
+//                httpCallBack.onError(new HttpException(ExceptionType.DEFAULT, ExceptionType.DEFAULT, ""));
+//            }
+//            return;
+//        }
+//        observable = transformObservableObject(context, observable);
+//        observable.subscribe(new ReponseObserver(context, httpCallBack, true));
+//    }
     /**
      * 返回json str,HttpCallBack<string> and API:Observable<String>
      * 展示加载框
      * */
-    public static void executeJsonDialog(Context context, Observable observable, HttpCallBack httpCallBack) {
-        if (context == null || observable == null) {
-            if (httpCallBack != null) {
-                httpCallBack.onError(new HttpException(ExceptionType.DEFAULT, ExceptionType.DEFAULT, ""));
-            }
-            return;
-        }
-        observable = transformObservableJson(context, observable);
-        observable.subscribe(new ReponseObserver(context, httpCallBack, true));
-
-    }
+//    public static void executeJsonDialog(Context context, Observable observable, HttpCallBack httpCallBack) {
+//        if (context == null || observable == null) {
+//            if (httpCallBack != null) {
+//                httpCallBack.onError(new HttpException(ExceptionType.DEFAULT, ExceptionType.DEFAULT, ""));
+//            }
+//            return;
+//        }
+//        observable = transformObservableJson(context, observable);
+//        observable.subscribe(new ReponseObserver(context, httpCallBack, true));
+//
+//    }
 
     private static Observable transformObservableObject(Context context, Observable observable) {
         observable = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());

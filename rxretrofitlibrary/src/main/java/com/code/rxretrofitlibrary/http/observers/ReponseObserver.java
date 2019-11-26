@@ -59,7 +59,10 @@ public class ReponseObserver<T> implements Observer<T> {
             if (mHttpDialog == null) {
                 mHttpDialog = new HttpDialog(mContextSoftReference.get());
             }
-            mHttpDialog.show();
+            try {
+                mHttpDialog.show();
+            } catch (Exception e) {
+            }
         }
     }
 

@@ -17,7 +17,7 @@ public interface ApiServer {
 
     @Headers(CacheHeaders.NO)
     @GET("test")
-    Observable<String> testApi(@QueryMap Map<String, String> params);
+    Call<String> testApi(@QueryMap Map<String, String> params);
 
     @GET("test")
     Observable<ServerModel<TestModel>> testApi1(@QueryMap Map<String, String> params);

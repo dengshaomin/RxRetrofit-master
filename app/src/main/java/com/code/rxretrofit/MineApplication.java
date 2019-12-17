@@ -13,6 +13,5 @@ public class MineApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         applicationContext = base;
-        HttpUtils.init(applicationContext);
     }
 }

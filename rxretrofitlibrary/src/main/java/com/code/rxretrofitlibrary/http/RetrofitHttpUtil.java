@@ -1,8 +1,15 @@
 package com.code.rxretrofitlibrary.http;
 
+import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.code.rxretrofitlibrary.http.interceptors.CacheInterceptor;
 import com.code.rxretrofitlibrary.http.interceptors.OkhttpRetryInterceptor;
@@ -14,23 +21,67 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 public class RetrofitHttpUtil {
 
-    private static OkHttpClient mOkHttpClient;
-    private static Context mApplicationContext;
-    public static <T> T createServerApi(Class<T> clazz, String url) {
+    private static volatile RetrofitHttpUtil mRetrofitHttpUtil;
+
+    private Map<String, Object> apiCachePool = new HashMap<>();
+
+    public static RetrofitHttpUtil getInstance() {
+        if (mRetrofitHttpUtil == null) {
+            synchronized (RetrofitHttpUtil.class) {
+                if (mRetrofitHttpUtil == null) {
+                    mRetrofitHttpUtil = new RetrofitHttpUtil();
+                }
+            }
+        }
+        return mRetrofitHttpUtil;
+    }
+
+    private String mainHostUrl = null;
+
+    private OkHttpClient mOkHttpClient;
+
+    private Context mApplicationContext;
+
+    public void init(Context context, String mainHost) {
+        if (context == null) {
+            throw new RuntimeException("context must not be null");
+        }
+        mApplicationContext = context.getApplicationContext() == null ? context : context.getApplicationContext();
+        mainHostUrl = mainHost;
+    }
+
+    public void init(Context context) {
+        init(context, null);
+    }
+
+    public <T> T createServerApi(Class<T> clazz) {
+        return createServerApi(clazz, null);
+    }
+
+    public <T> T createServerApi(Class<T> clazz, String url) {
+        if (clazz == null) {
+            throw new IllegalArgumentException("class must not be null");
+        }
+        if (apiCachePool == null) {
+            apiCachePool = new HashMap<>();
+        }
+        for (String key : apiCachePool.keySet()) {
+            if (TextUtils.equals(clazz.getName(), key)) {
+                return (T) apiCachePool.get(key);
+            }
+        }
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
+                .baseUrl(TextUtils.isEmpty(url) ? mainHostUrl : url)
                 .client(getOkHttpClient())
                 .addConverterFactory(FastJsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-        return retrofit.create(clazz);
+        T t = retrofit.create(clazz);
+        apiCachePool.put(clazz.getName(), t);
+        return t;
     }
 
-    public static void setmApplicationContext(Context mApplicationContext) {
-        RetrofitHttpUtil.mApplicationContext = mApplicationContext;
-    }
-
-    private static OkHttpClient getOkHttpClient() {
+    private OkHttpClient getOkHttpClient() {
         if (mOkHttpClient == null) {
 //            File httpCacheDirectory = new File(MineApplication.applicationContext.getCacheDir(), "okhttpCache");
 //            int cacheSize = 10 * 1024 * 1024; // 10 MiB

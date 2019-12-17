@@ -26,8 +26,12 @@ public class HttpUtils {
     private static String TAG = "HttpUtils";
 
     public static void init(Context context) {
+        init(context, null);
+    }
+
+    public static void init(Context context, String mainHost) {
         if (context == null) {
-            return;
+            throw new IllegalArgumentException("context not be null!");
         }
         RxJavaPlugins.setErrorHandler(new Consumer<Throwable>() {
             @Override
@@ -35,11 +39,12 @@ public class HttpUtils {
                 Log.e(TAG, throwable.getMessage());
             }
         });
-        RetrofitHttpUtil.setmApplicationContext(context.getApplicationContext() == null ? context : context.getApplicationContext());
+        RetrofitHttpUtil.getInstance().init(context, mainHost);
     }
+
     /**
      * 返回指定的数据结构
-     * */
+     */
     public static void executeObject(Context context, Observable observable, HttpCallBack httpCallBack) {
         if (context == null || observable == null) {
             if (httpCallBack != null) {
@@ -50,9 +55,10 @@ public class HttpUtils {
         observable = transformObservableObject(context, observable);
         observable.subscribe(new ReponseObserver(context, httpCallBack, false));
     }
+
     /**
      * 返回json str,HttpCallBack<string> and API:Observable<String>
-     * */
+     */
     public static void executeJson(Context context, Observable observable, HttpCallBack httpCallBack) {
         if (context == null || observable == null) {
             if (httpCallBack != null) {
@@ -78,10 +84,11 @@ public class HttpUtils {
 //        observable = transformObservableObject(context, observable);
 //        observable.subscribe(new ReponseObserver(context, httpCallBack, true));
 //    }
+
     /**
      * 返回json str,HttpCallBack<string> and API:Observable<String>
      * 展示加载框
-     * */
+     */
 //    public static void executeJsonDialog(Context context, Observable observable, HttpCallBack httpCallBack) {
 //        if (context == null || observable == null) {
 //            if (httpCallBack != null) {
@@ -93,7 +100,6 @@ public class HttpUtils {
 //        observable.subscribe(new ReponseObserver(context, httpCallBack, true));
 //
 //    }
-
     private static Observable transformObservableObject(Context context, Observable observable) {
         observable = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         if (context instanceof RxAppCompatActivity) {

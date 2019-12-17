@@ -3,7 +3,6 @@ package com.code.rxretrofit;
 import java.util.HashMap;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +24,7 @@ public class MainActivity extends RxAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        HttpUtils.init(MineApplication.applicationContext, "http://www.baidu.com");
         findViewById(R.id.get).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,7 +36,7 @@ public class MainActivity extends RxAppCompatActivity {
 
     private void request() {
         if (mApiServer == null) {
-            mApiServer = RetrofitHttpUtil.createServerApi(ApiServer.class, "http://www.baidu.com?");
+            mApiServer = RetrofitHttpUtil.getInstance().createServerApi(ApiServer.class);
         }
         HttpUtils.executeObject(this, mApiServer.testApi1(new HashMap<String, String>()), new HttpCallBack<TestModel>() {
             @Override

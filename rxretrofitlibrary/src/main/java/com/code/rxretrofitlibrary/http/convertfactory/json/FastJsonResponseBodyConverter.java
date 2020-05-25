@@ -1,4 +1,4 @@
-package com.code.rxretrofitlibrary.http.json;
+package com.code.rxretrofitlibrary.http.convertfactory.json;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -33,6 +33,9 @@ final class FastJsonResponseBodyConverter<T> implements Converter<ResponseBody, 
     @Override
     public T convert(ResponseBody value) throws IOException {
         try {
+            if(mType.getClass().equals(String.class.getClass())){
+                return (T) value.string();
+            }
             return JSON.parseObject(value.string(), mType, config, featureValues,
                     features != null ? features : EMPTY_SERIALIZER_FEATURES);
         } finally {

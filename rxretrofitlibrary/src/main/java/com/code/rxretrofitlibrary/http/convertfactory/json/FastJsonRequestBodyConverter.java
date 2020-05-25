@@ -1,4 +1,4 @@
-package com.code.rxretrofitlibrary.http.json;
+package com.code.rxretrofitlibrary.http.convertfactory.json;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import okhttp3.RequestBody;
 import retrofit2.Converter;
 
 final class FastJsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
-    private static final MediaType MEDIA_TYPE = MediaType.parse("application/json; charset=UTF-8");
+    private static final MediaType MEDIA_TYPE = MediaType.parse("application/com.code.rxretrofitlibrary.http.convertfactory.json; charset=UTF-8");
     private SerializeConfig serializeConfig;
     private SerializerFeature[] serializerFeatures;
 

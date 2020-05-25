@@ -3,8 +3,13 @@ package com.code.rxretrofitlibrary.http.models;
 import java.io.Serializable;
 
 public class ServerModel<T> implements Serializable {
+
+    public static final String SUCCESS_CODE = "A00000";
+
     private String code;
+
     private T data;
+
     private String msg;
 
     public String getCode() {

@@ -7,7 +7,6 @@ import io.reactivex.functions.Function;
 
 public class ReponseObjectMap<T> implements Function<ServerModel<T>, T> {
 
-
     @Override
     public T apply(ServerModel<T> tServerModel) throws Exception {
 

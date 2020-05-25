@@ -1,10 +1,6 @@
 package com.code.rxretrofitlibrary.http;
 
-import java.lang.ref.SoftReference;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -13,28 +9,17 @@ import android.text.TextUtils;
 
 import com.code.rxretrofitlibrary.http.interceptors.CacheInterceptor;
 import com.code.rxretrofitlibrary.http.interceptors.OkhttpRetryInterceptor;
-import com.code.rxretrofitlibrary.http.json.FastJsonConverterFactory;
+import com.code.rxretrofitlibrary.http.convertfactory.json.FastJsonConverterFactory;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-public class RetrofitHttpUtil {
+public class ApiFactory {
 
-    private static volatile RetrofitHttpUtil mRetrofitHttpUtil;
+    private static volatile ApiFactory mApiFactory;
 
     private Map<String, Object> apiCachePool = new HashMap<>();
-
-    public static RetrofitHttpUtil getInstance() {
-        if (mRetrofitHttpUtil == null) {
-            synchronized (RetrofitHttpUtil.class) {
-                if (mRetrofitHttpUtil == null) {
-                    mRetrofitHttpUtil = new RetrofitHttpUtil();
-                }
-            }
-        }
-        return mRetrofitHttpUtil;
-    }
 
     private String mainHostUrl = null;
 
@@ -42,7 +27,19 @@ public class RetrofitHttpUtil {
 
     private Context mApplicationContext;
 
-    public void init(Context context, String mainHost) {
+    private static ApiFactory getInstance() {
+        if (mApiFactory == null) {
+            synchronized (ApiFactory.class) {
+                if (mApiFactory == null) {
+                    mApiFactory = new ApiFactory();
+                }
+            }
+        }
+        return mApiFactory;
+    }
+
+
+    private void initInternal(Context context, String mainHost) {
         if (context == null) {
             throw new RuntimeException("context must not be null");
         }
@@ -50,15 +47,26 @@ public class RetrofitHttpUtil {
         mainHostUrl = mainHost;
     }
 
-    public void init(Context context) {
-        init(context, null);
+    public static void init(Context context, String mainHost) {
+        ApiFactory.getInstance().initInternal(context, mainHost);
     }
 
-    public <T> T createServerApi(Class<T> clazz) {
+    public static void init(Context context) {
+        init(context, null);
+    }
+//    private <T> T createServerApi(Class<T> clazz) {
+//        return createServerApi(clazz, null);
+//    }
+
+    public static <T> T createServerApi(Class<T> clazz) {
         return createServerApi(clazz, null);
     }
 
-    public <T> T createServerApi(Class<T> clazz, String url) {
+    public static <T> T createServerApi(Class<T> clazz, String url) {
+        return ApiFactory.getInstance().createServerApiInternal(clazz, null);
+    }
+
+    private <T> T createServerApiInternal(Class<T> clazz, String url) {
         if (clazz == null) {
             throw new IllegalArgumentException("class must not be null");
         }
@@ -74,6 +82,7 @@ public class RetrofitHttpUtil {
                 .baseUrl(TextUtils.isEmpty(url) ? mainHostUrl : url)
                 .client(getOkHttpClient())
                 .addConverterFactory(FastJsonConverterFactory.create())
+//                .addConverterFactory(StringConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         T t = retrofit.create(clazz);

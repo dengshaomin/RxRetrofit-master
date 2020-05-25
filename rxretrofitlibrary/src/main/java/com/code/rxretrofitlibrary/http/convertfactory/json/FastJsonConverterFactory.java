@@ -1,4 +1,4 @@
-package com.code.rxretrofitlibrary.http.json;
+package com.code.rxretrofitlibrary.http.convertfactory.json;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;

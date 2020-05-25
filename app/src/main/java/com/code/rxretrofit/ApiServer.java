@@ -13,13 +13,12 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.QueryMap;
 
-public interface ApiServer {
+public  interface ApiServer {
 
     @Headers(CacheHeaders.NO)
-    @GET("test")
-    Call<String> testApi(@QueryMap Map<String, String> params);
+    @GET("/query")
+    Observable<String> excuteJson(@QueryMap Map<String, String> params);
 
-    @GET("test")
-    Observable<ServerModel<TestModel>> testApi1(@QueryMap Map<String, String> params);
-
+    @GET("/query")
+    Observable<ServerModel<TestModel>> excuteObject(@QueryMap Map<String, String> params);
 }

@@ -39,27 +39,14 @@ public class HttpUtils {
                 Log.e(TAG, throwable.getMessage());
             }
         });
-        RetrofitHttpUtil.getInstance().init(context, mainHost);
+        ApiFactory.init(context, mainHost);
     }
 
-    /**
-     * 返回指定的数据结构
-     */
-    public static void executeObject(Context context, Observable observable, HttpCallBack httpCallBack) {
-        if (context == null || observable == null) {
-            if (httpCallBack != null) {
-                httpCallBack.onError(new HttpException(ExceptionType.DEFAULT, ExceptionType.DEFAULT, ""));
-            }
-            return;
-        }
-        observable = transformObservableObject(context, observable);
-        observable.subscribe(new ReponseObserver(context, httpCallBack, false));
-    }
 
     /**
      * 返回json str,HttpCallBack<string> and API:Observable<String>
      */
-    public static void executeJson(Context context, Observable observable, HttpCallBack httpCallBack) {
+    public static void execute(Context context, Observable observable, HttpCallBack httpCallBack) {
         if (context == null || observable == null) {
             if (httpCallBack != null) {
                 httpCallBack.onError(new HttpException(ExceptionType.DEFAULT, ExceptionType.DEFAULT, ""));

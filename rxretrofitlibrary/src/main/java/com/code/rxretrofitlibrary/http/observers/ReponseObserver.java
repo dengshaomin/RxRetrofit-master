@@ -10,6 +10,7 @@ import com.code.rxretrofitlibrary.http.cb.HttpCallBack;
 import com.code.rxretrofitlibrary.http.dialog.HttpDialog;
 import com.code.rxretrofitlibrary.http.exception.ExceptionType;
 import com.code.rxretrofitlibrary.http.exception.HttpException;
+import com.code.rxretrofitlibrary.http.models.ServerModel;
 import com.code.rxretrofitlibrary.utils.NetWorkUtils;
 
 import io.reactivex.Observer;
@@ -75,8 +76,29 @@ public class ReponseObserver<T> implements Observer<T> {
     @Override
     public void onNext(T t) {
         if (mHttpCallBack != null) {
-            mHttpCallBack.onSuccess(t);
+            try {
+                if(t == null){
+                    onError(null);
+                }else if(t instanceof ServerModel){
+                    ServerModel serverModel = (ServerModel) t;
+                    if(serverModel.getCode().equals( ServerModel.SUCCESS_CODE)){
+                        if(serverModel.getData() == null){
+                            onError(new HttpException(ExceptionType.SERVER,ExceptionType.DEFAULT, "data is null"));
+                        }else{
+                            mHttpCallBack.onSuccess(serverModel.getData());
+                        }
+                    }else{
+                        onError(null);
+                    }
+                }else{
+                    mHttpCallBack.onSuccess(t);
+                }
+//                mHttpCallBack.onSuccess(t);
+            } catch (Exception e) {
+                onError(e);
+            }
         }
+
     }
 
     @Override

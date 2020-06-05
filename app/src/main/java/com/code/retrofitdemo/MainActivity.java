@@ -9,8 +9,8 @@ import android.view.View.OnClickListener;
 
 import com.alibaba.fastjson.JSON;
 import com.code.retrofit.demo.R;
-import com.code.retrofit.http.HttpUtils;
 import com.code.retrofit.http.ApiFactory;
+import com.code.retrofit.http.HttpUtils;
 import com.code.retrofit.http.annotation.RetrofitApi;
 import com.code.retrofit.http.cb.HttpCallBack;
 import com.code.retrofit.http.exception.HttpException;

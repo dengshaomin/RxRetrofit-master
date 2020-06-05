@@ -63,7 +63,7 @@ public class ApiFactory {
     }
 
     public static <T> T createServerApi(Class<T> clazz, String url) {
-        return ApiFactory.getInstance().createServerApiInternal(clazz, null);
+        return ApiFactory.getInstance().createServerApiInternal(clazz, url);
     }
 
     private <T> T createServerApiInternal(Class<T> clazz, String url) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.code.rxretrofit"
+<manifest package="com.code.retrofit.demo"
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -13,10 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
-        android:name=".MineApplication"
+        android:name="com.code.retrofitdemo.MineApplication"
         android:theme="@style/AppTheme"
         >
-        <activity android:name=".MainActivity">
+        <activity android:name="com.code.retrofitdemo.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.alibaba.fastjson.JSON;
-import com.code.rxretrofitlibrary.http.HttpUtils;
-import com.code.rxretrofitlibrary.http.ApiFactory;
-import com.code.rxretrofitlibrary.http.annotation.RetrofitApi;
-import com.code.rxretrofitlibrary.http.cb.HttpCallBack;
-import com.code.rxretrofitlibrary.http.exception.HttpException;
+import com.code.rxretrofit.http.HttpUtils;
+import com.code.rxretrofit.http.ApiFactory;
+import com.code.rxretrofit.http.annotation.RetrofitApi;
+import com.code.rxretrofit.http.cb.HttpCallBack;
+import com.code.rxretrofit.http.exception.HttpException;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 public class MainActivity extends RxAppCompatActivity {
